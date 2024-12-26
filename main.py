@@ -6,9 +6,13 @@ from asteroid import Asteroid
 from asteroidfield import AsteroidField
 from constants import * 
 from player import Player
+import sys
 
 def main():
     pygame.init()
+    pygame.font.init()
+    my_font = pygame.font.SysFont('Comic Sans MS', 30)
+    text_surface = my_font.render('Game Over!', False, (255,255,255))
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     cl = pygame.time.Clock()
     dt = 0
@@ -37,6 +41,11 @@ def main():
             updatable.update(dt)
         for drawable in drawables:
             drawable.draw(screen)
+
+        for asteroid in asteroids:
+            if asteroid.collision(p):
+                screen.blit(text_surface, (0,0))
+                sys.exit()
 
 
         pygame.display.flip()
